@@ -66,6 +66,25 @@ The Cursor server may become unstable when it's under heavy traffic. You can pro
 
 To track all issues / file a new issue please go to the GitHub repo.
 
+## Known Issues with VSCodium Integration
+
+- **Linux Users (VSCodium-specific issues)**:  
+  VSCodium, the open-source build of VS Code, does not include Microsoft’s proprietary APIs and telemetry. This can lead to integration issues with extensions like CodeCursor, which may rely on those services.
+
+  - **Issue 1**: VSCodium uses the [Open VSX registry](https://open-vsx.org/) instead of the Microsoft Marketplace, which may prevent automatic installation of CodeCursor.
+    **Fix**: Install CodeCursor manually using the Open VSX registry:
+    ```bash
+    codium --install-extension <extension-id>
+    ```
+
+  - **Issue 2**: Certain APIs that CodeCursor relies on (e.g., for authentication and telemetry) may not work in VSCodium due to the lack of Microsoft services.
+    **Fix**: Ensure OpenAI API keys and authentication settings are correctly configured in VSCodium. This may require setting environment variables or editing `settings.json`.
+
+  - **Issue 3**: For troubleshooting, you can use VSCodium’s logs. Run VSCodium with the following command to gather more information:
+    ```bash
+    codium --log debug
+    ```
+
 ## Security Consideration
 
 The extension **DOES NOT** collect your code, environment data, or any information that could be used to track you. Additionally, we ensure that the Cursor server will not receive that data either. Only the document you perform code generation against will be uploaded to the Cursor server, and they are responsible for preventing any leaks of your code.
